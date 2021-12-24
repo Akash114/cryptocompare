@@ -1,0 +1,324 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh">
+
+    <title></title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+            dataRefresh();
+
+        } );
+    </script>
+
+<script>
+function autorefresh() {
+        // auto refresh page after 1 second
+        setInterval('refreshPage()', 20000);
+}
+
+function refreshPage() {
+        $.ajax({
+        url: '{% url 'dataTable' %}',
+        success: function(data) {
+        $('#console').html(data);
+        dataRefresh()
+        }
+    });
+}
+</script>
+
+    <script>
+
+    </script>
+
+
+
+        <script>
+
+           function dataRefresh(){
+
+               var trs = $('#example').dataTable();
+
+
+  trs.$('tr').each(function() {
+
+    var $tds = $(this).find('.price');
+    var values = $tds.map(function() {
+      return parseFloat($(this).text());
+    }).get();
+    values.sort((a, b) => a - b);
+    console.log(values);
+
+    const highlightAbove = values[values.length - 1];
+    const highlightbelow = values[values.length - 4];
+    $tds.each(function() {
+      var val = parseFloat($(this).text());
+      if (val >= highlightAbove) $(this).css("background-color", "#00FA9A");
+      if (val <= highlightbelow) $(this).css("background-color", "#FA8072");
+    })
+  });
+}
+
+        </script>
+
+        <script>autorefresh()
+    dataRefresh()
+    </script>
+
+    <style>
+
+.odd{
+    background-color: RGBA(232,214,203,0.3);
+}
+
+
+   body {
+  color: black;
+  font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 1.0em;
+  font-weight: 300;
+  letter-spacing: .01em;
+}
+.align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.arrow {
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+}
+.arrow p{
+  color: white;
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+.arrow a {
+  color: white;
+  text-decoration: none;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+h1{
+    color: #1b1b1b;
+    text-decoration: underline;
+    text-align: center;
+}
+h2{
+            text-align: center;
+    font-family: Meerriweather;
+    margin-top: 80px;
+    color: #08415C;
+
+}
+.box {
+  max-width: 90%;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+    margin-left: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0, 0.3)
+}
+p {
+    font-size: 20px;
+    color: #1b1b1b;
+    padding: 40px;
+  margin: 0 0 20px;
+}
+.code-box {
+  padding: 10px;
+  background: #f4f5f6;
+  border-left: solid 1px cornflowerblue;
+}
+code {
+background: #f4f5f6;
+}
+/* code for the actual backgrounds */
+.page1 {
+  background: #fff url("data:image/svg+xml,%3Csvg width='1280' height='233' xmlns='http://www.w3.org/2000/svg'%3E %3Cg fill='none' fill-rule='evenodd'%3E %3Cpath d='M1280 0c-167.463 0-449.312 114.933-639.815 114.933C449.68 114.933 173.4 0 0 0v233h1280V0z' fill='%237F7BFB'/%3E %3Cpath d='M1280 140.13C1112.537 140.13 830.503 42 640 42S173.4 140.13 0 140.13v93h1280v-93z' fill='%236E6ADD'/%3E %3C/g%3E %3C/svg%3E ") bottom/100% no-repeat fixed;
+}
+.page2 {
+  background: #fff url("data:image/svg+xml,%3Csvg width='1280' height='433' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M0 0h1280L0 433z' fill='%237F7BFB' fill-rule='evenodd'/%3E %3C/svg%3E ") top/100% no-repeat fixed;
+}
+.page3 {
+  background: #fff url("data:image/svg+xml,%3Csvg width='615' height='554' xmlns='http://www.w3.org/2000/svg'%3E %3Cg fill='none' fill-rule='evenodd'%3E %3Cpath d='M463.283 528.726c45.144 0 95.716 8.237 151.717 24.712V0H41.584C28.58 76.038-4.694 126.702.957 203.448c16.342 221.959 215.179 325.278 462.326 325.278z' fill='%239592FB'/%3E %3Cpath d='M382.319 485.092c54.57 14.534 187.124 6.139 232.681-13.977V0H122.36c-16.232 41.585 18.088 107.04 18.088 154.372 0 203.855 45.087 278.309 241.87 330.72z' fill='%238B87FA'/%3E %3Cpath d='M443.883 440.71c54.208 0 128.702-54.567 171.117-81.896V0H231.198c-21.166 38.7-14.497 103.867-14.497 151.086 0 150.221 76.96 289.624 227.182 289.624z' fill='%237F7BFB'/%3E %3C/g%3E %3C/svg%3E") top right no-repeat fixed;
+}
+.page4 {
+  background: #fff url("data:image/svg+xml,%3Csvg width='686' height='644' xmlns='http://www.w3.org/2000/svg'%3E %3Cg fill='%237F7BFB' fill-rule='evenodd'%3E %3Cpath d='M140.515 611.116C-12.61 495.728-45.706 281.379 66.592 132.353 178.892-16.673 394.06-43.941 547.185 71.446c153.125 115.388-83.89 141.804-196.188 290.83-112.299 149.026-57.357 364.228-210.482 248.84z' opacity='.8'/%3E %3Cpath d='M427 533.716c143.042 0 259-60.441 259-135 0-74.558-190.587-12.488-333.629-12.488-143.041 0-184.371-62.07-184.371 12.488 0 74.559 115.958 135 259 135z' opacity='.6'/%3E %3C/g%3E %3C/svg%3E") center/auto 100% no-repeat fixed;
+}
+.page5 {
+  background: #fff url("data:image/svg+xml,%3Csvg width='1238' height='512' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M147.02 511.097C66.275 511.097.817 449.157.817 372.75c0-76.407 65.458-138.348 146.203-138.348 62.533 0 106.646-7.389 141.632-20.846 26.513-10.198 47.244-22.792 87.958-52.365.12-.087 16.114-11.734 20.954-15.233 30.65-22.162 53.643-37.536 80.574-52.92 35.163-20.089 71.812-36.722 112.309-50.29 157.588-52.796 336.341-55.6 534.062-11.291 78.572 17.607 127.183 92.154 108.576 166.505-18.608 74.35-97.387 120.35-175.96 102.742-146.168-32.755-268.465-30.837-369.088 2.874-39.265 13.155-66.845 28.911-112.944 62.241-4.362 3.154-19.965 14.516-20.438 14.86-26.97 19.59-45.012 31.998-66.326 44.946-28.798 17.496-57.919 32.085-89.567 44.259-71.735 27.592-153.054 41.213-251.742 41.213z' fill='%237F7BFB' fill-rule='nonzero'/%3E %3C/svg%3E") center/90% no-repeat fixed;
+}
+.page6 {
+  background: #fff url("data:image/svg+xml,%3Csvg width='1280' height='710' xmlns='http://www.w3.org/2000/svg'%3E %3Cg fill='%237F7BFB' fill-rule='evenodd'%3E %3Cpath d='M0 63.354c47.677-2.931 102.14 12.343 163.387 45.822 91.87 50.22 126.954 158.927 248.81 226.016 121.856 67.09 217.644 28.645 324.582 86.582C843.72 479.71 882.997 594 979.392 646.458c64.263 34.971 130.87 56.185 199.821 63.641H0V63.354z'/%3E %3Cpath d='M0 1.393C50.612-3.2 109.835 13.082 177.667 50.234c101.749 55.73 130.439 163.5 265.397 237.95 134.958 74.45 204.648 26.67 323.085 90.963 118.436 64.293 142.832 176.85 249.59 235.062 71.173 38.808 167.927 70.771 290.261 95.89H0V1.393z' opacity='.7'/%3E %3C/g%3E %3C/svg%3E") left bottom/80% no-repeat fixed;
+}
+.table-design{
+        background-color: white;
+        width:100%;
+        border-width: 3px;
+        border-color: gray;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0, 0.3)
+
+    }
+  .main{
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-right: 130px;
+        padding-left: 130px;
+    }
+
+
+                  .custom-btn
+            {
+                width: 400px;
+                height: 60px;
+                color:deepskyblue;
+                border-radius: 5px;
+                /* padding: 10px 25px; */
+                font-family: 'Merriweather';
+                font-size: xx-large;
+                font-weight: 500;
+                background: transparent;
+                transition: all 0.3s ease;
+                position: relative;
+                display: inline-block;
+                outline: none;
+                text-align: center;
+            }
+
+            .btn-5 {
+                width: 400px;
+                height: 60px;
+                line-height: 42px;
+
+                border: none;
+                background: transparent;
+                padding-top: 7px;
+                }
+            .btn-5:hover {
+                color: #fff;
+                box-shadow:none;
+                background: rgb(1, 37, 54);
+                background: linear-gradient(0deg, deepskyblue 0%, rgba(165, 163, 253,1) 100%);
+                }
+            .btn-5:hover:before,
+            .btn-5:hover:after{
+                width:0;
+
+                transition:400ms ease all;
+                }
+            .btn-5:before,
+            .btn-5:after{
+                width:100%;
+                transition:800ms ease all;
+                background: deepskyblue;
+                box-shadow:
+                -1px -1px 5px 0px #fff,
+                7px 7px 20px 0px #0003,
+                4px 4px 5px 0px #0002;
+                content:'';
+                position:absolute;
+                top:0;
+                right:0;
+                height:2px;
+                }
+            .btn-5:after{
+                right:inherit;
+                top:inherit;
+                left:0;
+                bottom:0;
+                }
+
+
+    </style>
+
+</head>
+<body>
+<div class="page6">
+    <div>
+        <div style="display: flex; justify-content: center;padding-top:30px;">
+<span class="custom-btn btn-5">Crypto Exchanges Compare</span>
+        </div>
+
+    </div>
+
+    <div class="main" id="console">
+
+<h2>Price Table</h2>
+
+    <table id="example" class="table table-design">
+        <thead class="table-dark">
+        <tr>
+        <th>index</th>
+        <th>Coin Name</th>
+        <th>Coindcx Price</th>
+        <th>Wazirx Price</th>
+        <th>Bitbns Price</th>
+        <th>Zebpay Price</th>
+        <th>Change</th>
+        <th>Percentage Change</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for data in exchanges %}
+            <tr>
+                <td>{{ data.index }}</td>
+                <td>{{ data.coin_name }}</td>
+                <td class="price">{{ data.coindcx_Price|floatformat:2 }}</td>
+                <td class="price">{{ data.wazirx_Price|floatformat:2 }}</td>
+                <td class="price">{{ data.bitbns_Price|floatformat:2 }}</td>
+                <td class="price">{{ data.zebpay_Price|floatformat:2 }}</td>
+                <td>{{ data.Change|floatformat:2 }}</td>
+                <td>{{ data.percentage_change|floatformat:4 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+        <th>index</th>
+        <th>Coin Name</th>
+        <th>Coindcx Price</th>
+        <th>Wazirx Price</th>
+        <th>Bitbns Price</th>
+        <th>Zebpay Price</th>
+        <th>Change</th>
+                <th>Percentage Change</th>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+
+<h2>Price Table</h2>
+
+    <table id="example" class="table table-design">
+        <thead class="table-dark">
+        <tr>
+        <th>index</th>
+        <th>Coin Name</th>
+        <th>Coindcx Price</th>
+        <th>Wazirx Price</th>
+        <th>Bitbns Price</th>
+        <th>Zebpay Price</th>
+        <th>Change</th>
+        <th>Percentage Change</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for data in exchanges %}
+            <tr>
+                <td>{{ data.index }}</td>
+                <td>{{ data.coin_name }}</td>
+                <td class="price">{{ data.coindcx_Price|floatformat:2 }}</td>
+                <td class="price">{{ data.wazirx_Price|floatformat:2 }}</td>
+                <td class="price">{{ data.bitbns_Price|floatformat:2 }}</td>
+                <td class="price">{{ data.zebpay_Price|floatformat:2 }}</td>
+                <td>{{ data.Change|floatformat:2 }}</td>
+                <td>{{ data.percentage_change|floatformat:4 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+        <th>index</th>
+        <th>Coin Name</th>
+        <th>Coindcx Price</th>
+        <th>Wazirx Price</th>
+        <th>Bitbns Price</th>
+        <th>Zebpay Price</th>
+        <th>Change</th>
+                <th>Percentage Change</th>
+        </tr>
+        </tfoot>
+    </table>
